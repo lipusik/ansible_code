@@ -1,5 +1,12 @@
 ---
 
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ list_pkg }}"
+
 - name: Create group for go user
   group:
     name: "{{ gogroup_name}}"
@@ -15,7 +22,13 @@
     group: "{{ gogroup_name }}"
     state: present
 
-- name: Create files and directories
+- name: Add existing user {{ gouser_name}} to group docker
+  user:
+    name: "{{ gouser_name }}"
+    groups: docker
+    append: yes
+
+- name: Create files and directories for {{ item.name }}
   file:
     path: "{{ item.path }}"
     state: "{{ item.state }}"
@@ -26,7 +39,7 @@
   with_items:
     - { path: "/opt/app/{{ item.name }}/", state: directory, recurse: yes }
 
-- name: Copy scripts
+- name: Copy scripts for {{ item.name }}
   template:
     src: "{{ item.path }}.j2"
     dest: "/{{ item.path }}"

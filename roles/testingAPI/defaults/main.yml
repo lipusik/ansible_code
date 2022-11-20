@@ -9,3 +9,7 @@ gogroup_gid: "1101"
 
 network: "172.29.0"
 api_url: "https://petstore.swagger.io/v2/pet"
+
+list_pkg:
+  - docker
+  - docker-compose
