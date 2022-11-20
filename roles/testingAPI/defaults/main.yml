@@ -1,0 +1,11 @@
+---
+go_apps:
+  - name: testing_api
+
+gouser_name: "goexecutor"
+gouser_uid: "1100"
+gogroup_name: "gogroup"
+gogroup_gid: "1101"
+
+network: "172.29.0"
+api_url: "https://petstore.swagger.io/v2/pet"

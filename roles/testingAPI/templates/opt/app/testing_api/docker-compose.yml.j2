@@ -1,0 +1,23 @@
+version: '2'
+
+services:
+
+  run_api:
+    image: lipusik/testing_api:latest
+    container_name: run_api
+    restart: on-failure:1
+    volumes:
+      - /opt/app/testing_api/.env:/go/.env
+    networks:
+      rproxynet:
+        ipv4_address: {{ network }}.2
+    environment:
+      - EXTERNAL_NAME=testname
+
+networks:
+  rproxynet:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: {{ network }}.0/16
+         gateway: {{ network }}.1

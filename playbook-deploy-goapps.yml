@@ -1,0 +1,6 @@
+---
+- hosts: all
+  tags:
+    - always
+  roles:
+    - { role: testingAPI, tag: deploy_testingAPI }

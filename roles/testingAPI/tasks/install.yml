@@ -1,0 +1,40 @@
+---
+
+- name: Create group for go user
+  group:
+    name: "{{ gogroup_name}}"
+    state: present
+    gid: "{{ gogroup_gid }}"
+
+- name: Create user for go apps
+  user:
+    name: "{{ gouser_name}}"
+    uid: "{{ gouser_uid }}"
+    shell: /bin/bash
+    generate_ssh_key: yes
+    group: "{{ gogroup_name }}"
+    state: present
+
+- name: Create files and directories
+  file:
+    path: "{{ item.path }}"
+    state: "{{ item.state }}"
+    mode: "755"
+    owner: "root"
+    group: "root"
+    recurse: "{{ item.recurse }}"
+  with_items:
+    - { path: "/opt/app/{{ item.name }}/", state: directory, recurse: yes }
+
+- name: Copy scripts
+  template:
+    src: "{{ item.path }}.j2"
+    dest: "/{{ item.path }}"
+    mode: "{{ item.mode }}"
+    owner: "root"
+    group: "root"
+  with_items:
+    - { path: "root/run_api.sh", mode: 644 }
+    - { path: "opt/app/{{ item.name }}/docker-compose.yml", mode: 755 }
+    - { path: "etc/sudoers.d/{{ gouser_name }}", mode: 644}
+    - { path: "opt/app/{{ item.name }}/.env", mode: 755 }
