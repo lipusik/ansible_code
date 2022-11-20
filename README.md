@@ -8,3 +8,7 @@ This repository stores roles that deploy docker images
 ```sh
 ansible-playbook -i test.yml -D playbook-deploy-goapps.yml -t deploy_testingAPI -C
 ```
+2. You can test the API
+```sh
+sudo /bin/bash /root/run_api.sh
+```

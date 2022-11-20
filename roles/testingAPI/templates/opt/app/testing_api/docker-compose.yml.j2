@@ -9,13 +9,13 @@ services:
     volumes:
       - /opt/app/testing_api/.env:/go/.env
     networks:
-      rproxynet:
+      net:
         ipv4_address: {{ network }}.2
     environment:
       - EXTERNAL_NAME=testname
 
 networks:
-  rproxynet:
+  net:
     driver: bridge
     ipam:
      config:
